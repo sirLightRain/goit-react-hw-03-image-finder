@@ -7,8 +7,8 @@ export const Layout = styled.div`
   margin-left: auto;
   margin-right: auto;
 
-  max-width: 600px;
-  padding: 32px;
+  /* max-width: 600px; */
+  /* padding: 32px; */
 
-  background-color: ${props => props.theme.colors.blue};
+  /* background-color: ${props => props.theme.colors.blue}; */
 `;
