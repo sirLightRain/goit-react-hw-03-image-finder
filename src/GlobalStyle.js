@@ -16,7 +16,7 @@ code {
     monospace;
 }
 
-ul,h1,h2,h3,h4,h5,h6,p {
+ul,li,h1,h2,h3,h4,h5,h6,p {
     margin: 0px;
     padding: 0px;
     list-style: none;

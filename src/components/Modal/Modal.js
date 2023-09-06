@@ -1,5 +1,11 @@
-import { StyledModal } from "./Modal.styled"; 
+import { StyledModalOverlay, StyledModal } from './Modal.styled';
 
 export const Modal = () => {
-  return <StyledModal>Modal</StyledModal>;
+  return (
+    <StyledModalOverlay>
+      <StyledModal>
+        <img src='' alt="" />
+      </StyledModal>
+    </StyledModalOverlay>
+  );
 };

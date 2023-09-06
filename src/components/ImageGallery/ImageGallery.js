@@ -1,5 +1,10 @@
-import { StyledImageGallery } from "./ImageGallery.styled"; 
+import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
+import { StyledImageGallery } from './ImageGallery.styled';
 
 export const ImageGallery = () => {
-  return <StyledImageGallery>ImageGallery</StyledImageGallery>;
+  return (
+    <StyledImageGallery>
+      <ImageGalleryItem />
+    </StyledImageGallery>
+  );
 };

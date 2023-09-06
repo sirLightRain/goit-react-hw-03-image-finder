@@ -12,6 +12,8 @@ import { Modal } from './Modal/Modal';
 import { Layout } from 'Layout';
 import { GlobalStyle } from 'GlobalStyle';
 
+
+
 export class App extends Component {
   state = {
     query: '',
@@ -46,13 +48,14 @@ export class App extends Component {
   render() {
     return (
       <Layout>
+
         <Searchbar onSubmit={this.handleSubmit} />
         {this.state.images.length > 0 && <ImageGallery />}
 
         <ImageGalleryItem />
         <Loader />
         <Button onClick={this.handleLoadMore} />
-        <Modal />
+        {/* <Modal /> */}
 
         <GlobalStyle />
       </Layout>

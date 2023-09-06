@@ -1,5 +1,9 @@
-import { StyledImageGalleryItem } from "./ImageGalleryItem.styled"; 
+import { StyledImageGalleryItem, StyledImg } from './ImageGalleryItem.styled';
 
 export const ImageGalleryItem = () => {
-  return <StyledImageGalleryItem>ImageGalleryItem</StyledImageGalleryItem>;
+  return (
+    <StyledImageGalleryItem>
+      <StyledImg alt="" />
+    </StyledImageGalleryItem>
+  );
 };
