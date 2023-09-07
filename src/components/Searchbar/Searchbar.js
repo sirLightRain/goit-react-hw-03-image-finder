@@ -1,3 +1,5 @@
+import React, { useState } from 'react';
+
 import {
   StyledSearchbar,
   StyledForm,
@@ -6,10 +8,17 @@ import {
   StyledFInput,
 } from './Searchbar.styled';
 
-export const Searchbar = () => {
+export const Searchbar = ({ onSubmit }) => {
+  const [query, setQuery] = useState('');
+
+  const handleSubmit = evt => {
+    evt.preventDefault();
+    onSubmit(query);
+  };
+
   return (
     <StyledSearchbar>
-      <StyledForm>
+      <StyledForm onSubmit={handleSubmit}>
         <StyledButtom type="submit">
           <StyledSpan>Search</StyledSpan>
         </StyledButtom>
@@ -19,6 +28,8 @@ export const Searchbar = () => {
           autoComplete="off"
           autoFocus
           placeholder="Search images and photos"
+          value={query}
+          onChange={evt => setQuery(evt.target.value)}
         />
       </StyledForm>
     </StyledSearchbar>
