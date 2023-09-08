@@ -6,11 +6,11 @@ import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Loader } from './Loader/Loader';
 import { Button } from './Button/Button';
 import { Modal } from './Modal/Modal';
+import { GetImg } from './GetAPI/GetAPI';
 //! Імпорт компонент
 
 import { Layout } from 'Layout';
 import { GlobalStyle } from 'GlobalStyle';
-import { GetImg } from './GetAPI/GetAPI';
 
 export class App extends Component {
   state = {
