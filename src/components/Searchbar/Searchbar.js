@@ -1,37 +1,49 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 
 import {
   StyledSearchbar,
   StyledForm,
-  StyledButtom,
+  StyledButton,
   StyledSpan,
-  StyledFInput,
+  StyledInput,
 } from './Searchbar.styled';
 
-export const Searchbar = ({ onSubmit }) => {
-  const [query, setQuery] = useState('');
-
-  const handleSubmit = evt => {
-    evt.preventDefault();
-    onSubmit(query);
+export class Searchbar extends Component {
+  state = {
+    query: '', // Тут зберігаємо інпут
   };
 
-  return (
-    <StyledSearchbar>
-      <StyledForm onSubmit={handleSubmit}>
-        <StyledButtom type="submit">
-          <StyledSpan>Search</StyledSpan>
-        </StyledButtom>
+  // Якщо інпут змінився, обробляємо подію
+  handleChange = e => {
+    this.setState({ query: e.target.value });
+  };
 
-        <StyledFInput
-          type="text"
-          autoComplete="off"
-          autoFocus
-          placeholder="Search images and photos"
-          value={query}
-          onChange={evt => setQuery(evt.target.value)}
-        />
-      </StyledForm>
-    </StyledSearchbar>
-  );
-};
+  // Обробник події, який викликається при сабміті форми
+  handleSubmit = e => {
+    e.preventDefault();
+    this.props.onSubmit(this.state.query);
+  };
+
+  render() {
+    const { query } = this.state;
+
+    return (
+      <StyledSearchbar onSubmit={this.handleSubmit}>
+        <StyledForm>
+          <StyledButton type="submit">
+            <StyledSpan>Search</StyledSpan>
+          </StyledButton>
+
+          <StyledInput
+            type="text"
+            autoComplete="off"
+            autoFocus
+            placeholder="Search images and photos"
+            value={query} // Значення інпута зі стану
+            onChange={this.handleChange} // Обробник події зі зміною інпута
+          />
+        </StyledForm>
+      </StyledSearchbar>
+    );
+  }
+}

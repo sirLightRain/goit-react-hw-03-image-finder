@@ -5,7 +5,7 @@ import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Loader } from './Loader/Loader';
 import { Button } from './Button/Button';
-import { Modal } from './Modal/Modal';
+// import { Modal } from './Modal/Modal';
 //! Імпорт компонент
 
 import { Layout } from 'Layout';
@@ -20,42 +20,48 @@ export class App extends Component {
     isLoading: false,
   };
 
-  handleSubmit = async query => {
-    // Оновлення стану замість передачі параметрів події
-    const { page } = this.state;
-
-    try {
-      this.setState({ isLoading: true });
-
-      const response = await GetImg(query, page);
-      const newImages = response.data.hits;
-
-      // Вивести отримані дані у консоль
-      console.log('Отримані дані з API:', newImages);
-
-      this.setState(prevState => ({
-        query, // Оновити запит у стані
-        images: [...prevState.images, ...newImages],
-        page: prevState.page + 1,
-        isLoading: false,
-      }));
-    } catch (error) {
-      console.error('Error fetching images:', error);
-      this.setState({ isLoading: false });
-    }
-  };
-
   componentDidUpdate(prevProps, prevState) {
     if (
       prevState.query !== this.state.query ||
       prevState.page !== this.state.page
     ) {
-      // HTTP request
+      this.fetchImages();
     }
   }
 
-  handleLoadMore = () => {
-    this.handleSubmit();
+  fetchImages = () => {
+    const { query, page, images } = this.state;
+
+    this.setState({ isLoading: true });
+
+    return GetImg(query, page)
+      .then(response => {
+        this.setState(prevState => ({
+          images: [...images, ...response.data.hits],
+          isLoading: false,
+        }));
+      })
+      .catch(error => {
+        console.error('Помилка при отриманні зображень з API:', error);
+        this.setState({ isLoading: false });
+      });
+  };
+
+  handleSearch = query => {
+    this.setState({ query, images: [], page: 1 }, () => {
+      this.fetchImages();
+    });
+  };
+
+  loadMore = () => {
+    this.setState(
+      prevState => ({
+        page: prevState.page + 1,
+      }),
+      () => {
+        this.fetchImages();
+      }
+    );
   };
 
   render() {
@@ -63,15 +69,12 @@ export class App extends Component {
 
     return (
       <Layout>
-        <Searchbar onSubmit={this.handleSubmit} />
-        {images.length > 0 && <ImageGallery images={images} />}
+        <Searchbar onSubmit={this.handleSearch} />
+        <ImageGallery images={images} />
         {isLoading && <Loader />}
-        {!isLoading && images.length > 0 && (
-          <Button onClick={this.handleLoadMore} />
+        {images.length > 0 && !isLoading && (
+          <Button onClick={this.loadMore}>Load More</Button>
         )}
-
-        {/* <Modal /> */}
-
         <GlobalStyle />
       </Layout>
     );

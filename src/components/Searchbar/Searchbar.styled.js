@@ -29,7 +29,7 @@ export const StyledForm = styled.form`
   overflow: hidden;
 `;
 
-export const StyledButtom = styled.button`
+export const StyledButton = styled.button`
   display: inline-block;
   width: 48px;
   height: 48px;
@@ -60,7 +60,7 @@ export const StyledSpan = styled.span`
   border: 0;
 `;
 
-export const StyledFInput = styled.input`
+export const StyledInput = styled.input`
   display: inline-block;
   width: 100%;
   font: inherit;
