@@ -5,7 +5,7 @@ import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Loader } from './Loader/Loader';
 import { Button } from './Button/Button';
-// import { Modal } from './Modal/Modal';
+import { Modal } from './Modal/Modal';
 //! Імпорт компонент
 
 import { Layout } from 'Layout';
@@ -18,6 +18,8 @@ export class App extends Component {
     images: [],
     page: 1,
     isLoading: false,
+    showModal: false,
+    selectedImage: '', // Велике зображення для модалки
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -29,6 +31,7 @@ export class App extends Component {
     }
   }
 
+  // Отримуємо картинки і вносимо їх в стан
   fetchImages = () => {
     const { query, page, images } = this.state;
 
@@ -47,12 +50,14 @@ export class App extends Component {
       });
   };
 
+  // Зчитуємо запит та сздіснюємо пошук за введеним словом
   handleSearch = query => {
     this.setState({ query, images: [], page: 1 }, () => {
       this.fetchImages();
     });
   };
 
+  // Завантажити ще порцію по натисканню кнопки лояд мор
   loadMore = () => {
     this.setState(
       prevState => ({
@@ -64,16 +69,29 @@ export class App extends Component {
     );
   };
 
+  // Відкриваємо модалку
+  openModal = largeImageURL => {
+    this.setState({ showModal: true, selectedImage: largeImageURL });
+  };
+
+  // Закриваємо модалку
+  closeModal = () => {
+    this.setState({ showModal: false, selectedImage: '' });
+  };
+
   render() {
-    const { images, isLoading } = this.state;
+    const { images, isLoading, showModal, selectedImage  } = this.state;
 
     return (
       <Layout>
         <Searchbar onSubmit={this.handleSearch} />
-        <ImageGallery images={images} />
+        <ImageGallery images={images} onImageClick={this.openModal} />
         {isLoading && <Loader />}
         {images.length > 0 && !isLoading && (
           <Button onClick={this.loadMore}>Load More</Button>
+        )}
+        {showModal && (
+          <Modal largeImageURL={selectedImage} onClose={this.closeModal} />
         )}
         <GlobalStyle />
       </Layout>
